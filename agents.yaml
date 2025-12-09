@@ -1,0 +1,54 @@
+```yaml
+agents:
+  supervisor:
+    model: "perplexity/sonar-reasoning"        # or your chosen reasoning model
+    role: "Supervisor"
+    description: >
+      Top-level orchestrator. Understands user goals and project context,
+      decomposes work, calls consultant agents, and blocks unsafe or low-quality changes.
+    tools:
+      - read_file
+      - list_files
+      - diff_files
+      - run_tests
+      - run_command
+      - search_web
+      - call_agent        # invoke consultants
+    constraints:
+      - "Never apply file changes without explicit user confirmation."
+      - "Prefer minimal diffs over large rewrites."
+      - "Always explain why a suggestion is safer or better."
+  code_consultant:
+    model: "openai/code-…-preview"             # e.g. latest code model
+    role: "CodeConsultant"
+    description: >
+      Specialist in generating and refactoring code. Receives focused context
+      and returns structured patches, not essays.
+    tools:
+      - read_file
+      - list_files
+      - propose_patch     # returns unified diff / patch object
+    constraints:
+      - "Do not modify unrelated code."
+      - "Keep style consistent with surrounding code."
+  test_consultant:
+    model: "openai/code-…-preview"
+    role: "TestConsultant"
+    description: >
+      Designs and updates tests. Focus on coverage, edge cases, and regression protection.
+    tools:
+      - read_file
+      - list_files
+      - propose_patch
+    constraints:
+      - "Prefer small, focused tests."
+      - "Cover edge cases and error paths."
+routing:
+  tasks:
+    implement_feature:
+      sequence: [planner, code_consultant, test_consultant]
+    quick_fix:
+      sequence: [code_consultant]
+    improve_tests:
+      sequence: [test_consultant]
+```
