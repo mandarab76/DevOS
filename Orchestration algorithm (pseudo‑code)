@@ -1,0 +1,23 @@
+```text
+handle_user_request(goal, mode):
+  context = collect_project_context()
+  plan = supervisor_plan(goal, context)
+
+  for step in plan.steps:
+    if step.type == "code_change":
+      result = call_agent("code_consultant", step)
+    elif step.type == "test_update":
+      result = call_agent("test_consultant", step)
+    else:
+      result = supervisor_handle_direct(step)
+
+    accumulate patches/results
+
+  combined_patch = merge_patches(all_patches)
+  show_to_user(combined_patch, explanations)
+
+  if user_confirms:
+    apply_patch(combined_patch)
+    test_result = run_tests(plan.test_command)
+    send_test_result_back_to_supervisor(test_result)
+```
