@@ -1,0 +1,34 @@
+```json
+{
+  "tools": {
+    "read_file": {
+      "args": { "path": "string" },
+      "returns": { "content": "string" }
+    },
+    "propose_patch": {
+      "args": {
+        "path": "string",
+        "instructions": "string"
+      },
+      "returns": {
+        "patch": "string",      // unified diff or custom patch format
+        "comment": "string"
+      }
+    },
+    "run_tests": {
+      "args": { "command": "string" },
+      "returns": {
+        "ok": "boolean",
+        "output": "string"
+      }
+    },
+    "call_agent": {
+      "args": {
+        "agent": "string",
+        "payload": "object"
+      },
+      "returns": { "result": "object" }
+    }
+  }
+}
+```
