@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-DevOS is a mobile-first, AI-powered development environment that enables full-featured coding on mobile devices. The project consists of:
+DevOS is a mobile-first, AI-powered development environment that enables full-featured coding on mobile devices and in the browser. The project consists of:
 
-- **Mobile IDE**: A tab-based IDE optimized for phones and tablets
+- **IDE Interface**: A tab-based IDE optimized for phones, tablets, and web browsers
 - **Backend Server**: DevOS Core that handles Git, language toolchains, builds, and AI orchestration
 - **Supervisor Agent**: Perplexity/Comet-powered AI agent that acts as a guardian and code reviewer
 
@@ -19,7 +19,7 @@ DevOS is a mobile-first, AI-powered development environment that enables full-fe
 
 ### System Components
 
-- **Mobile Client** (Android/Kotlin): Tab-based IDE with offline project storage
+- **Client Layer**: Tab-based IDE with offline project storage (mobile via Android/Kotlin, web via browser)
 - **DevOS Core** (Backend): Runs on laptop/server/VPS, handles toolchains and AI integration
 - **Supervisor Layer**: Perplexity/Comet API integration for reasoning and guardrails
 
@@ -32,12 +32,13 @@ DevOS is a mobile-first, AI-powered development environment that enables full-fe
 - Keep mobile UI responsive and touch-friendly
 - Use structured data formats (JSON/YAML) for configuration
 
-### Mobile Development
+### Client Development (Mobile & Web)
 
 - Design for tab-based navigation (swipe between Editor, Terminal, Git, Supervisor tabs)
-- Optimize for small screens - avoid cramming UI elements
+- Optimize for small screens on mobile - avoid cramming UI elements
+- Ensure web version works across modern browsers
 - Consider offline-first capabilities
-- Use touch-friendly controls (no tiny buttons)
+- Use touch-friendly controls on mobile (no tiny buttons)
 
 ### Backend Development
 
@@ -66,17 +67,19 @@ DevOS is a mobile-first, AI-powered development environment that enables full-fe
 /Config          - Configuration files and settings
 /Docs            - Documentation and specifications
 /Mobile          - Mobile client (Android/Kotlin)
-/Server          - Backend DevOS Core service
+/Server          - Backend DevOS Core service (unused)
+/server          - Active backend DevOS Core implementation
+  /devos_core    - Core server functionality
 /agents.yaml     - Agent definitions and routing rules
 /Tool-schema.json - Tool and action schemas
 ```
 
 ## Technology Stack
 
-- **Mobile**: Kotlin, Jetpack Compose (Android)
-- **Backend**: Python or Node.js (to be determined)
+- **Client**: Android (Kotlin, Jetpack Compose) and Web (browser-based)
+- **Backend**: Python or Node.js (implementation in `/server/devos_core/`)
 - **AI**: Perplexity/Comet API for reasoning and search
-- **Communication**: HTTP/WebSocket between mobile and backend
+- **Communication**: HTTP/WebSocket between clients and backend
 - **Version Control**: Git (built-in integration)
 
 ## AI/Supervisor Integration
@@ -104,17 +107,18 @@ The Supervisor agent:
 
 ## Development Workflow
 
-1. **Local Development**: Work in appropriate subdirectory (Mobile, Server, etc.)
+1. **Local Development**: Work in appropriate subdirectory (Mobile, server, etc.)
 2. **Testing**: Test changes locally before committing
 3. **Agent Testing**: Validate agent prompts and responses
-4. **Mobile Testing**: Test on actual devices or emulators for touch/screen size
-5. **Integration**: Ensure mobile client and backend communicate properly
+4. **Client Testing**: Test on actual devices/browsers for mobile and web support
+5. **Integration**: Ensure clients and backend communicate properly
 
 ## Special Considerations
 
 - **Phone Constraints**: Limited screen space, touch input, battery life
-- **Offline Support**: Mobile IDE should work without constant backend connection
-- **Latency**: Minimize round-trips between mobile and backend
+- **Browser Compatibility**: Support modern web browsers for the web IDE
+- **Offline Support**: IDE should work without constant backend connection
+- **Latency**: Minimize round-trips between clients and backend
 - **Context Size**: Be mindful of prompt/context limits for AI agents
 
 ## Documentation
@@ -126,8 +130,8 @@ The Supervisor agent:
 
 ## Goals
 
-- Enable professional development on mobile devices
+- Enable professional development on mobile devices and in browsers
 - Provide intelligent, context-aware code assistance
-- Create a seamless workflow between mobile IDE and backend
+- Create a seamless workflow between IDE clients and backend
 - Make AI supervision helpful, not intrusive
 - Build a system that scales from hobby projects to serious development
