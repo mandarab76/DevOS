@@ -25,7 +25,7 @@ class TestYAMLConfiguration(unittest.TestCase):
     
     def setUp(self):
         """Set up test fixtures."""
-        self.yaml_file = repo_root / "agents.yaml"
+        self.yaml_file = repo_root / "Config" / "agents.yaml"
         self.assertTrue(self.yaml_file.exists(), "agents.yaml file must exist")
         
     def test_yaml_file_is_valid(self):
@@ -37,10 +37,6 @@ class TestYAMLConfiguration(unittest.TestCase):
             
         with open(self.yaml_file, 'r') as f:
             content = f.read()
-            # Strip the markdown code fence if present
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
             
             try:
                 data = yaml.safe_load(content)
@@ -199,7 +195,7 @@ class TestJSONSchema(unittest.TestCase):
     
     def setUp(self):
         """Set up test fixtures."""
-        self.schema_file = repo_root / "Tool-schema.json"
+        self.schema_file = repo_root / "Config" / "Tool-schema.json"
         self.assertTrue(self.schema_file.exists(), "Tool-schema.json file must exist")
     
     def test_json_file_is_valid(self):
@@ -390,13 +386,13 @@ class TestDocumentation(unittest.TestCase):
     
     def test_orchestration_algorithm_exists(self):
         """Verify orchestration algorithm pseudocode exists."""
-        algo_file = repo_root / "Orchestration algorithm (pseudo‑code)"
+        algo_file = repo_root / "Docs" / "Orchestration algorithm (pseudo‑code)"
         self.assertTrue(algo_file.exists(), 
                        "Orchestration algorithm file must exist")
     
     def test_orchestration_algorithm_has_key_functions(self):
         """Verify orchestration algorithm defines key functions."""
-        algo_file = repo_root / "Orchestration algorithm (pseudo‑code)"
+        algo_file = repo_root / "Docs" / "Orchestration algorithm (pseudo‑code)"
         with open(algo_file, 'r') as f:
             content = f.read()
         
@@ -440,8 +436,8 @@ class TestRepositoryStructure(unittest.TestCase):
         required_files = [
             'README.md',
             'LICENSE',
-            'agents.yaml',
-            'Tool-schema.json',
+            'Config/agents.yaml',
+            'Config/Tool-schema.json',
             '.github/copilot-instructions.md',
         ]
         
@@ -485,7 +481,7 @@ class TestConfigurationConsistency(unittest.TestCase):
             self.skipTest("PyYAML not installed")
         
         # Load agents.yaml
-        yaml_file = repo_root / "agents.yaml"
+        yaml_file = repo_root / "Config" / "agents.yaml"
         with open(yaml_file, 'r') as f:
             content = f.read()
             if content.strip().startswith('```yaml'):
@@ -494,7 +490,7 @@ class TestConfigurationConsistency(unittest.TestCase):
             agents_data = yaml.safe_load(content)
         
         # Load Tool-schema.json
-        schema_file = repo_root / "Tool-schema.json"
+        schema_file = repo_root / "Config" / "Tool-schema.json"
         with open(schema_file, 'r') as f:
             content = f.read()
             if content.strip().startswith('```json'):
@@ -539,7 +535,7 @@ class TestEdgeCases(unittest.TestCase):
         except ImportError:
             self.skipTest("PyYAML not installed")
         
-        yaml_file = repo_root / "agents.yaml"
+        yaml_file = repo_root / "Config" / "agents.yaml"
         with open(yaml_file, 'r') as f:
             content = f.read()
             if content.strip().startswith('```yaml'):
@@ -555,7 +551,7 @@ class TestEdgeCases(unittest.TestCase):
     
     def test_json_schema_has_no_trailing_commas(self):
         """Verify JSON has no syntax errors like trailing commas."""
-        schema_file = repo_root / "Tool-schema.json"
+        schema_file = repo_root / "Config" / "Tool-schema.json"
         with open(schema_file, 'r') as f:
             content = f.read()
             if content.strip().startswith('```json'):
