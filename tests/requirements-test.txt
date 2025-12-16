@@ -1,2 +1,2 @@
 # Test dependencies for DevOS configuration validation
-PyYAML>=6.0
+pyyaml>=6.0
