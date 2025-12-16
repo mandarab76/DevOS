@@ -65,13 +65,13 @@ DevOS is a mobile-first, AI-powered development environment that enables full-fe
 
 ```
 /Config          - Configuration files and settings
+  /agents.yaml     - Agent definitions and routing rules
+  /Tool-schema.json - Tool and action schemas
 /Docs            - Documentation and specifications
 /Mobile          - Mobile client (Android/Kotlin)
 /Server          - Backend DevOS Core service (unused)
 /server          - Active backend DevOS Core implementation
   /devos_core    - Core server functionality
-/agents.yaml     - Agent definitions and routing rules
-/Tool-schema.json - Tool and action schemas
 ```
 
 ## Technology Stack
