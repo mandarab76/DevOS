@@ -1,4 +1,3 @@
-```yaml
 agents:
   supervisor:
     model: "perplexity/sonar-reasoning"        # or your chosen reasoning model
@@ -51,4 +50,4 @@ routing:
       sequence: [code_consultant]
     improve_tests:
       sequence: [test_consultant]
-```
+

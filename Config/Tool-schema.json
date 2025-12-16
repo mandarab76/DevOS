@@ -1,4 +1,3 @@
-```json
 {
   "tools": {
     "read_file": {
@@ -11,7 +10,7 @@
         "instructions": "string"
       },
       "returns": {
-        "patch": "string",      // unified diff or custom patch format
+        "patch": "string",
         "comment": "string"
       }
     },
@@ -31,4 +30,4 @@
     }
   }
 }
-```
+

@@ -25,7 +25,7 @@ class TestYAMLConfiguration(unittest.TestCase):
     
     def setUp(self):
         """Set up test fixtures."""
-        self.yaml_file = repo_root / "agents.yaml"
+        self.yaml_file = repo_root / "Config" / "agents.yaml"
         self.assertTrue(self.yaml_file.exists(), "agents.yaml file must exist")
         
     def test_yaml_file_is_valid(self):
@@ -37,10 +37,6 @@ class TestYAMLConfiguration(unittest.TestCase):
             
         with open(self.yaml_file, 'r') as f:
             content = f.read()
-            # Strip the markdown code fence if present
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
             
             try:
                 data = yaml.safe_load(content)
@@ -56,11 +52,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
             
         self.assertIn('agents', data, "agents section must be defined")
         self.assertIsInstance(data['agents'], dict, "agents must be a dictionary")
@@ -73,11 +65,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         required_agents = ['supervisor', 'code_consultant', 'test_consultant']
         for agent in required_agents:
@@ -91,11 +79,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         required_fields = ['model', 'role', 'description', 'tools', 'constraints']
         
@@ -113,11 +97,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         supervisor_tools = data['agents']['supervisor']['tools']
         self.assertIn('call_agent', supervisor_tools, 
@@ -131,11 +111,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         self.assertIn('routing', data, "routing section must be defined")
         self.assertIn('tasks', data['routing'], "routing.tasks must be defined")
@@ -148,11 +124,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         valid_agents = set(data['agents'].keys())
         valid_agents.add('planner')  # planner might be implicit
@@ -175,11 +147,7 @@ class TestYAMLConfiguration(unittest.TestCase):
             self.skipTest("PyYAML not installed")
             
         with open(self.yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         for agent_name, agent_config in data['agents'].items():
             with self.subTest(agent=agent_name):
@@ -199,17 +167,13 @@ class TestJSONSchema(unittest.TestCase):
     
     def setUp(self):
         """Set up test fixtures."""
-        self.schema_file = repo_root / "Tool-schema.json"
+        self.schema_file = repo_root / "Config" / "Tool-schema.json"
         self.assertTrue(self.schema_file.exists(), "Tool-schema.json file must exist")
     
     def test_json_file_is_valid(self):
         """Verify Tool-schema.json is valid JSON format."""
         with open(self.schema_file, 'r') as f:
             content = f.read()
-            # Strip markdown code fence if present
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
             
             try:
                 data = json.loads(content)
@@ -220,11 +184,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_tools_section_exists(self):
         """Verify tools section is defined in schema."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         self.assertIn('tools', data, "tools section must be defined")
         self.assertIsInstance(data['tools'], dict, "tools must be a dictionary")
@@ -232,11 +192,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_required_tools_defined(self):
         """Verify all required tools are defined in schema."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         required_tools = ['read_file', 'propose_patch', 'run_tests', 'call_agent']
         for tool in required_tools:
@@ -245,11 +201,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_tool_definitions_have_args_and_returns(self):
         """Verify each tool has args and returns specifications."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         for tool_name, tool_spec in data['tools'].items():
             with self.subTest(tool=tool_name):
@@ -261,11 +213,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_read_file_tool_schema(self):
         """Verify read_file tool has correct schema structure."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         read_file = data['tools']['read_file']
         self.assertIn('path', read_file['args'], 
@@ -276,11 +224,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_propose_patch_tool_schema(self):
         """Verify propose_patch tool has correct schema structure."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         propose_patch = data['tools']['propose_patch']
         self.assertIn('path', propose_patch['args'], 
@@ -295,11 +239,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_run_tests_tool_schema(self):
         """Verify run_tests tool has correct schema structure."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         run_tests = data['tools']['run_tests']
         self.assertIn('command', run_tests['args'], 
@@ -312,11 +252,7 @@ class TestJSONSchema(unittest.TestCase):
     def test_call_agent_tool_schema(self):
         """Verify call_agent tool has correct schema structure."""
         with open(self.schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = json.loads(content)
+            data = json.loads(f.read())
         
         call_agent = data['tools']['call_agent']
         self.assertIn('agent', call_agent['args'], 
@@ -390,13 +326,13 @@ class TestDocumentation(unittest.TestCase):
     
     def test_orchestration_algorithm_exists(self):
         """Verify orchestration algorithm pseudocode exists."""
-        algo_file = repo_root / "Orchestration algorithm (pseudo‑code)"
+        algo_file = repo_root / "Docs" / "Orchestration algorithm (pseudo‑code)"
         self.assertTrue(algo_file.exists(), 
                        "Orchestration algorithm file must exist")
     
     def test_orchestration_algorithm_has_key_functions(self):
         """Verify orchestration algorithm defines key functions."""
-        algo_file = repo_root / "Orchestration algorithm (pseudo‑code)"
+        algo_file = repo_root / "Docs" / "Orchestration algorithm (pseudo‑code)"
         with open(algo_file, 'r') as f:
             content = f.read()
         
@@ -440,8 +376,8 @@ class TestRepositoryStructure(unittest.TestCase):
         required_files = [
             'README.md',
             'LICENSE',
-            'agents.yaml',
-            'Tool-schema.json',
+            'Config/agents.yaml',
+            'Config/Tool-schema.json',
             '.github/copilot-instructions.md',
         ]
         
@@ -485,22 +421,14 @@ class TestConfigurationConsistency(unittest.TestCase):
             self.skipTest("PyYAML not installed")
         
         # Load agents.yaml
-        yaml_file = repo_root / "agents.yaml"
+        yaml_file = repo_root / "Config" / "agents.yaml"
         with open(yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            agents_data = yaml.safe_load(content)
+            agents_data = yaml.safe_load(f.read())
         
         # Load Tool-schema.json
-        schema_file = repo_root / "Tool-schema.json"
+        schema_file = repo_root / "Config" / "Tool-schema.json"
         with open(schema_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            schema_data = json.loads(content)
+            schema_data = json.loads(f.read())
         
         defined_tools = set(schema_data['tools'].keys())
         
@@ -539,13 +467,9 @@ class TestEdgeCases(unittest.TestCase):
         except ImportError:
             self.skipTest("PyYAML not installed")
         
-        yaml_file = repo_root / "agents.yaml"
+        yaml_file = repo_root / "Config" / "agents.yaml"
         with open(yaml_file, 'r') as f:
-            content = f.read()
-            if content.strip().startswith('```yaml'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
-            data = yaml.safe_load(content)
+            data = yaml.safe_load(f.read())
         
         # Verify multiline strings are properly handled
         for agent_name, agent_config in data['agents'].items():
@@ -555,12 +479,9 @@ class TestEdgeCases(unittest.TestCase):
     
     def test_json_schema_has_no_trailing_commas(self):
         """Verify JSON has no syntax errors like trailing commas."""
-        schema_file = repo_root / "Tool-schema.json"
+        schema_file = repo_root / "Config" / "Tool-schema.json"
         with open(schema_file, 'r') as f:
             content = f.read()
-            if content.strip().startswith('```json'):
-                lines = content.split('\n')
-                content = '\n'.join(lines[1:-1])
         
         # This will raise JSONDecodeError if there are syntax issues
         try:

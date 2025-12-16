@@ -75,7 +75,7 @@ Validates the directory structure and required files.
 
 **Key Tests:**
 - Required directories exist (Config, Docs, Mobile, Server, server/devos_core)
-- Required files exist (README.md, LICENSE, agents.yaml, Tool-schema.json)
+- Required files exist (README.md, LICENSE, Config/agents.yaml, Config/Tool-schema.json)
 - LICENSE is MIT license
 - .gitkeep files exist in empty directories
 
