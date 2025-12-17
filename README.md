@@ -6,6 +6,12 @@ DevOS is a mobile-first, AI-powered development environment that enables full-fe
 IDE Interface: A tab-based IDE optimized for phones, tablets, and web browsers
 Backend Server: DevOS Core that handles Git, language toolchains, builds, and AI orchestration
 Supervisor Agent: Perplexity/Comet-powered AI agent that acts as a guardian and code reviewer
+Current Status
+- Overall: Early planning/prototype; good for concept/peer review, not production-ready.
+- Backend (`server/devos_core`): Placeholder (.gitkeep). API/toolchain/auth/storage not implemented.
+- Mobile client (`Mobile/`): Placeholder (.gitkeep). UI/offline/sync/tab navigation not implemented.
+- Docs/Config: Guidelines + agent/tool schemas present.
+- Orchestration & delivery: Pseudo-code exists; config tests pass; runtime workflows and deploy scripts pending.
 Architecture Principles
 Core Concepts
 Mobile-First Design: The phone/tablet is a first-class development device, not a toy
